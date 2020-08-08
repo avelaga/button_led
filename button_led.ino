@@ -24,33 +24,10 @@ void setup() {
   LEDS.addLeds<WS2812, DATA_PIN, RGB>(leds, NUM_LEDS);
   LEDS.setBrightness(255);
   incSpeed = random(4, 6) / 100.0;
-   //  bootUp();
   creepBootUp();
   holdWhite();
   toColor();
-  //  hue =
   Serial.begin(9600);
-}
-
-void bootUp() {
-
-  while (brightness < 255) {
-    LEDS.setBrightness(brightness);
-    //    loop();
-    for (int i = 0; i < NUM_LEDS; i++) {
-      leds[i] = CRGB( 255, 255, 255);
-      //      hue += .5; // incremenration of hues in the strip
-    }
-
-    //    leds[i] = CRGB( 50, 100, 150);
-
-    FastLED.show();
-
-    brightness += 1;
-    delay(5);
-  }
-  LEDS.setBrightness(255);
-
 }
 
 void creepBootUp() {
@@ -84,45 +61,17 @@ void holdWhite() {
   start += .7;
   for (int x = 0; x < 60; x++) { // run for 400 frames
     for (int i = 0; i < NUM_LEDS; i++) {
-
-      // for color strobe
-      //      if (x % 3 == 0) {
-      //        leds[i] = CRGB( 255, 0, 0);
-      //      }
-      //      else if(x%3==1){
-      //        leds[i] = CRGB( 0, 255, 0);
-      //      }
-      //      else {
-      //        leds[i] = CRGB( 0, 0, 255);
-      //      }
-
-      // small moving colors - pretty!
-
       if(x==59){
         leds[i] = CRGB( 255, 255, 255);
       }else{
-            leds[i] = CHSV(localHue, 255, 255);
-            localHue += 65;
-      }
-
-      // strobe
-//      if (x % 2 == 0) {
-//        leds[i] = CRGB( 255, 255, 255);
-//      } else {
-//        leds[i] = CRGB( 0, 0, 0);
-//      }
-
-//    leds[i] = CRGB( 255, 255, 255);
-
-      
+         leds[i] = CHSV(localHue, 255, 255);
+         localHue += 65;
+      }    
     }
     FastLED.show();
     delay(50);
   }
-  
 }
-
-
 
 void toColor() {
   float g = 255;
@@ -160,7 +109,6 @@ void checkButton() {
 }
 
 void loop() {
-
   checkButton();
 
   if (mode == 0) { // normal fade
@@ -190,5 +138,4 @@ void loop() {
     FastLED.show();
     delay(35);
   }
-
 }
